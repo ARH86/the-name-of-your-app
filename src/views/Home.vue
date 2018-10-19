@@ -1,4 +1,4 @@
-<template>
+abp<template>
   <div class="home">
     <h1>Todo App</h1>
     <div>
@@ -61,10 +61,20 @@ export default {
   methods: {
 
     addTask: function() {
-      if (this.newTask.text !== "") {
-      this.tasks.push(this.newTask);
-      this.newTask = {text: "", completed: false} 
-      }
+
+      var params = {
+                    text: this.newTask.text
+                    };
+
+
+      axios
+      .post("http://localhost:3000/api/tasks")
+      .then(function(response) {
+        this.tasks.push(response.data);
+      }.bind(this));
+
+      this.newTask = {text: " ", completed: false}
+
     },
     completeTask: function(inputTask) {
       inputTask.completed = !inputTask.completed;
